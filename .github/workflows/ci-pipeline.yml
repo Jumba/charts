@@ -27,8 +27,6 @@ jobs:
       chart: ${{ steps.get-chart.outputs.chart }}
       result: ${{ steps.get-chart.outputs.result }}
       values-updated: ${{ steps.get-chart.outputs.values-updated }}
-    # Only run in bitnami org and when charts exist (charts live under bitnami/** in this repo)
-    if: ${{ github.repository_owner == 'bitnami' && hashFiles('bitnami/**') != '' }}
     steps:
       - id: get-chart
         name: Get modified charts

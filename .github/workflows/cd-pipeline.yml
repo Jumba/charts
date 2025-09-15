@@ -21,7 +21,7 @@ jobs:
       chart: ${{ steps.get-chart.outputs.chart }}
       result: ${{ steps.get-chart.outputs.result }}
     # Only run in bitnami org and when charts exist
-    if: ${{ github.repository_owner == 'bitnami' && hashFiles('bitnami/**') != '' }}
+    # Guard handled inside the step to avoid expression-function issues
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
         with:
