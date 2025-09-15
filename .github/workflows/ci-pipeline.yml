@@ -35,6 +35,13 @@ jobs:
           PULL_REQUEST_URL: "${{ github.event.pull_request.url }}"
           GITHUB_TOKEN: "${{ github.token }}"
         run: |
+          # Skip in non-bitnami repos
+          owner="${GITHUB_REPOSITORY%%/*}"
+          if [[ "$owner" != "bitnami" ]]; then
+            echo "result=skip" >> "$GITHUB_OUTPUT"
+            echo "error=Skipping chart checks outside bitnami org" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
           # Using the Github API to detect the files changed as git merge-base stops working when the branch is behind
           files_changed_data="$(gh api --paginate "/repos/${GITHUB_REPOSITORY}/pulls/${PULL_REQUEST_NUMBER}/files")"
           files_changed="$(echo "$files_changed_data" | jq -r '.[] | .filename')"
